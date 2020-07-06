@@ -36,6 +36,13 @@ export default {
     //
   }),
 
+  created() {
+    this.$store.dispatch(
+      "storeProcessedImages",
+      localStorage.processedImages || 0
+    );
+  },
+
   methods: {}
 };
 </script>
