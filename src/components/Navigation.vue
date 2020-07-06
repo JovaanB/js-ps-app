@@ -3,7 +3,9 @@
     <v-list dense>
       <v-list-item>
         <v-list-item-icon>
-          <v-icon class="green--text" @click="goto('/')">mdi-link-variant</v-icon>
+          <v-icon class="green--text" @click="goto('/')"
+            >mdi-link-variant</v-icon
+          >
         </v-list-item-icon>
       </v-list-item>
       <v-divider></v-divider>
@@ -25,10 +27,15 @@
 export default {
   methods: {
     goto(route) {
-      // eslint-disable-next-line
-      this.$router.push({ path: route }).catch(err => {});
-    }
-  }
+      if (localStorage.validation) {
+        // eslint-disable-next-line
+        this.$router.push({ path: route }).catch((err) => {});
+      } else {
+        // eslint-disable-next-line
+        this.$router.push({ path: "/" }).catch((err) => {});
+      }
+    },
+  },
 };
 </script>
 
