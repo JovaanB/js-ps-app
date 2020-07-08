@@ -7,7 +7,8 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "nwdev": "concurrently --kill-others --raw  \"npm run serve\" \"./node_modules/.bin/run ./nwdev\"",
-    "generator": "node --inspect ./generator/generator-core/app -f ./generator/plugins -v"
+    "generator": "node --inspect ./generator/generator-core/app -f ./generator/plugins -v",
+    "generator-watch": "nodemon --watch ./generator/plugins --inspect ./generator/generator-core/app --verbose -f ./generator/plugins"
   },
   "dependencies": {
     "@mdi/font": "^3.6.95",

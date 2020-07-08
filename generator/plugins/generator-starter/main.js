@@ -10,6 +10,8 @@
     _currentDocumentId = null,
     _config = null;
 
+  const io = require("socket.io")(8099);
+
   /**
    * Evaluates a JSX String always in the same JSX Engine
    * @param {String} JSXString The string to evaluate
@@ -17,35 +19,46 @@
   const jsx = function(JSXString) {
     // keeps it thenable
     return _generator.evaluateJSXString(JSXString, true);
-  }
+  };
 
   /*********** INIT ***********/
 
   function init(generator, config) {
-
     _generator = generator;
     _config = config;
 
     console.log("initializing with config %j", _config);
 
-    _generator.addMenuItem(MENU_ID, MENU_LABEL, true, true)
-      .then(
-        function() {
-          console.log("Menu created", MENU_ID);
-        },
-        function() {
-          console.error("Menu creation failed", MENU_ID);
-        }
-      );
+    io.on("connection", (socket) => {
+      console.log("Socket: ", socket);
 
-    _generator.onPhotoshopEvent("generatorMenuChanged", handleGeneratorMenuClicked);
+      socket.on("some-event", (payload, callback) => {
+        console.log("Server has received from client this: ", payload);
+        let returnString = "Greetings from the server!";
+        // comment
+        return callback(returnString);
+      });
+    });
+
+    _generator.addMenuItem(MENU_ID, MENU_LABEL, true, true).then(
+      function() {
+        console.log("Menu created", MENU_ID);
+      },
+      function() {
+        console.error("Menu creation failed", MENU_ID);
+      }
+    );
+
+    _generator.onPhotoshopEvent(
+      "generatorMenuChanged",
+      handleGeneratorMenuClicked
+    );
 
     // TO DEBUG: chrome://inspect/#devices
 
     function initLater() {}
 
     process.nextTick(initLater);
-
   }
 
   /*********** EVENTS ***********/
@@ -53,7 +66,11 @@
   function handleGeneratorMenuClicked(event) {
     // Just FYI
     var startingMenuState = _generator.getMenuState(MENU_ID);
-    console.log("Menu event %s, starting state %s", stringify(event), stringify(startingMenuState));
+    console.log(
+      "Menu event %s, starting state %s",
+      stringify(event),
+      stringify(startingMenuState)
+    );
     // could be made nicer, but...
     // If checked, uncheck
     if (startingMenuState.checked) {
@@ -61,24 +78,24 @@
       _generator.toggleMenu(MENU_ID, true, false).then(
         // Success
         function() {
-          console.log("Disabling the menu item")
+          console.log("Disabling the menu item");
         },
         // Error
         function() {
-          console.error("Can't toggle menu")
+          console.error("Can't toggle menu");
         }
-      )
+      );
     } else {
       _generator.toggleMenu(MENU_ID, true, true).then(
         // Success
         function() {
-          console.log("Enabling the menu item")
+          console.log("Enabling the menu item");
         },
         // Error
         function() {
-          console.error("Can't toggle menu")
+          console.error("Can't toggle menu");
         }
-      )
+      );
     }
   }
 
@@ -94,5 +111,4 @@
   }
 
   exports.init = init;
-
-}());
+})();

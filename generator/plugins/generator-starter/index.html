@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>Socket.io client</h1>
+    <button id="btn">Fire Event!</button>
+
+    <script src="./node_modules/socket.io-client/dist/socket.io.js"></script>
+    <script>
+      const client = io("http://localhost:8099");
+      client.on("connect", () => {
+        console.log("The client has connected.");
+      });
+      const btn = document.getElementById("btn");
+      btn.addEventListener("click", () => {
+        let payload = {
+          name: "Davide",
+          country: "Italy",
+        };
+        client.emit("some-event", payload, (message) => {
+          console.log("Received from the server side: ", message);
+        });
+      });
+    </script>
+  </body>
+</html>
