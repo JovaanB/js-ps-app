@@ -6,7 +6,8 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "nwdev": "concurrently --kill-others --raw  \"npm run serve\" \"./node_modules/.bin/run ./nwdev\""
+    "nwdev": "concurrently --kill-others --raw  \"npm run serve\" \"./node_modules/.bin/run ./nwdev\"",
+    "generator": "node --inspect ./generator/generator-core/app -f ./generator/plugins -v"
   },
   "dependencies": {
     "@mdi/font": "^3.6.95",

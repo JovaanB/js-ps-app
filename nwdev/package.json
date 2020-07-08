@@ -3,8 +3,24 @@
   "version": "0.1.0",
   "build": {
     "nwVersion": "0.46.3",
-    "nwFlavor": "sdk"
+    "nwFlavor": "sdk",
+    "strippedProperties": [
+      "scripts",
+      "devDependencies",
+      "build",
+      "chromium-args"
+    ]
+  },
+  "window": {
+    "width": 600,
+    "height": 500,
+    "min_width": 600,
+    "min_height": 500,
+    "frame": false
   },
   "main": "http://localhost:8080",
-  "chromium-args": "--load-extension='./node_modules/nw-vue-devtools-prebuilt/extension'"
+  "chromium-args": "--load-extension='./node_modules/nw-vue-devtools-prebuilt/extension'",
+  "node-remote": [
+    "<all_urls>"
+  ]
 }

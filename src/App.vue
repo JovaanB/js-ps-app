@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <window-bar></window-bar>
+    <window-bar style="-webkit-app-region: drag"></window-bar>
     <navigation></navigation>
     <v-main>
       <v-container>
@@ -29,7 +29,7 @@ export default {
   components: {
     WindowBar,
     WindowFooter,
-    Navigation
+    Navigation,
   },
 
   data: () => ({
@@ -43,6 +43,6 @@ export default {
     );
   },
 
-  methods: {}
+  methods: {},
 };
 </script>

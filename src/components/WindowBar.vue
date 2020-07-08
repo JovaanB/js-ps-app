@@ -2,19 +2,32 @@
   <v-system-bar window app>
     <span>PS Native App</span>
     <v-spacer></v-spacer>
-    <v-icon @click="log('clicked')">mdi-window-minimize</v-icon>
-    <v-icon @click="log('clicked')">mdi-close</v-icon>
+    <v-icon @click="minimize" class="no-drag">mdi-window-minimize</v-icon>
+    <v-icon @click="close" class="no-drag">mdi-close</v-icon>
   </v-system-bar>
 </template>
 
 <script>
 export default {
+  data() {
+    return {
+      // eslint-disable-next-line no-undef
+      win: nw.Window.get(),
+    };
+  },
   methods: {
-    log(s) {
-      console.log(s);
+    minimize() {
+      this.win.minimize();
+    },
+    close() {
+      this.win.close();
     },
   },
 };
 </script>
 
-<style></style>
+<style>
+.no-drag {
+  -webkit-app-region: no-drag;
+}
+</style>
