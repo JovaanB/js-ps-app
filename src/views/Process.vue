@@ -24,6 +24,7 @@
 import InputFiles from "@/components/InputFiles";
 import Tags from "@/components/Tags";
 import Actions from "@/components/Actions";
+import Messaging from "@/mixins/messaging";
 
 export default {
   components: {
@@ -39,6 +40,7 @@ export default {
       return this.$store.getters.actions;
     }
   },
+  mixins: [Messaging],
   data() {
     return {
       files: [],
@@ -55,13 +57,17 @@ export default {
     updateActionsObject(actionsObject) {
       this.actionsObj = actionsObject;
     },
-    runProcess() {
+    async runProcess() {
       let payload = {
         files: this.files.map(f => f.path),
         tags: this.tagsData.filter(tag => tag.active).map(tag => tag.name),
         actions: this.actionsObj
       };
-      console.log(payload);
+      for (let i = 0; i < payload.files.length; i++) {
+        await this.sendMessage("getThumbnail", payload.files[i]).then(res =>
+          console.log(res)
+        );
+      }
     }
   },
 

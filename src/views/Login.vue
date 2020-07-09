@@ -7,11 +7,7 @@
       <v-col cols="auto">
         <v-card min-width="350" class="px-12 py-4">
           <v-form ref="loginForm">
-            <v-text-field
-              label="User Name"
-              v-model="userID"
-              :rules="[rules.required]"
-            ></v-text-field>
+            <v-text-field label="User Name" v-model="userID" :rules="[rules.required]"></v-text-field>
             <v-text-field
               label="Serial Number"
               v-model="serialNO"
@@ -19,9 +15,7 @@
               v-mask="serialMask"
             ></v-text-field>
             <v-card-actions class="justify-center">
-              <v-btn color="purple lighten-1" text @click="validate"
-                >Validate</v-btn
-              >
+              <v-btn color="purple lighten-1" text @click="validate">Validate</v-btn>
             </v-card-actions>
           </v-form>
         </v-card>
@@ -39,30 +33,29 @@ export default {
       userID: undefined,
       serialNO: undefined,
       rules: {
-        required: (value) => !!value || "Required.",
+        required: value => !!value || "Required.",
         serialRule: () => true || "Not valid.",
-        minValue: (value) => value.length > 18 || "Not valid.",
+        minValue: value => (value && value.length > 18) || "Not valid."
       },
-      serialMask: "####-####-####-####",
+      serialMask: "####-####-####-####"
     };
   },
   methods: {
     validate() {
       if (this.$refs.loginForm.validate()) {
-        console.log("Validatation sucessful");
         localStorage.validation = JSON.stringify({
           userID: this.userID,
-          serialNO: this.serialNO,
+          serialNO: this.serialNO
         });
         this.$router.push({ path: "home" });
       }
-    },
+    }
   },
   created() {
     if (localStorage.validation) {
       this.$router.push({ path: "home" });
     }
-  },
+  }
 };
 </script>
 

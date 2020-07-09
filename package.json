@@ -7,16 +7,19 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "nwdev": "concurrently --kill-others --raw  \"npm run serve\" \"./node_modules/.bin/run ./nwdev\"",
-    "generator": "node --inspect ./generator/generator-core/app -f ./generator/plugins -v",
-    "generator-watch": "nodemon --watch ./generator/plugins --inspect ./generator/generator-core/app --verbose -f ./generator/plugins"
+    "generator": "lsof -i -n | grep 9229 | awk '{print $2}' | xargs kill && node --inspect ./generator/generator-core/app -f ./generator/plugins -v",
+    "generator-watch": "lsof -i -n | grep 9229 | awk '{print $2}' | xargs kill && nodemon --watch ./generator/plugins --inspect ./generator/generator-core/app --verbose -f ./generator/plugins",
+    "dev": "concurrently --names \"Generator,NW\" -c \"black.bgRed,black.bgYellow\" \"npm run generator-watch\" \"npm run nwdev\""
   },
   "dependencies": {
     "@mdi/font": "^3.6.95",
     "core-js": "^3.6.5",
     "nw-vue-devtools-prebuilt": "^0.0.10",
     "roboto-fontface": "*",
+    "socket.io-client": "^2.3.0",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0",
+    "vue-socket.io-extended": "^4.0.3",
     "vue-the-mask": "^0.11.1",
     "vuetify": "^2.2.11",
     "vuex": "^3.4.0"
@@ -33,6 +36,7 @@
     "eslint-plugin-vue": "^6.2.2",
     "node-sass": "^4.12.0",
     "nwjs-builder-phoenix": "^1.15.0",
+    "raw-loader": "^4.0.1",
     "sass": "^1.19.0",
     "sass-loader": "^8.0.2",
     "vue-cli-plugin-vuetify": "~2.0.6",
