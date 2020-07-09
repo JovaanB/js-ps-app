@@ -7,6 +7,9 @@ import "./plugins/socketio";
 import "roboto-fontface/css/roboto/roboto-fontface.css";
 import "@mdi/font/css/materialdesignicons.css";
 
+import ml5 from "ml5";
+Object.defineProperty(Vue.prototype, "$ml5", { value: ml5 });
+
 Vue.config.productionTip = false;
 Vue.config.devtools = true;
 
